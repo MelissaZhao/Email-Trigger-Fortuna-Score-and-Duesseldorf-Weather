@@ -57,7 +57,7 @@ def getDB():
         Verein varchar(255),
         Pl. varchar(255),
         Tore Varchar(255),
-        punkte Varchar(255)
+        Punkte Varchar(255)
     """
     cursor.execute(sql)
 
@@ -95,7 +95,7 @@ def sendEmail():
         """Hi,How are you?
         Please find the attached file and link about Fortuna Düsseldorf score and News!
         https://www.kicker.de/fortuna-duesseldorf/info
-        I wish you have a nice weekend!
+        I wish you have a nice week!
     
         Best Regards""",
         "plain"
@@ -127,7 +127,7 @@ def sendEmail():
     message.attach(mail_content)
     message.attach(html)
     # Add email attachment
-    csvfile = "tabelle.csv"
+    csvfile = "fortuna.csv"
     with open(csvfile) as file:
         Attachment = MIMEBase("application", "octet-steam")
         Attachment.set_payload(file.read())
@@ -152,7 +152,7 @@ def sendEmail():
     session.starttls()  # enale security
     session.login(sender["adress"], sender["password"])
     text = message.as_string()
-    session.sendmail(sender["adress"], receiver_address, text)
+    session.sendmail(sender["adress"], receiver_adress, text)
     session.quit()
     print('Mail Sent')
 
