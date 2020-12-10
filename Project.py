@@ -18,9 +18,6 @@ from email.mime.image import MIMEImage
 from email import encoders
 
 
-
-
-
 # This project aims to send the regular Email to football fan of Fortuna-Düsseldorf club about the football score of Fortuna and the weather in Düsseldorf on that day
 
 
