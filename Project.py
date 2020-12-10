@@ -133,9 +133,9 @@ def sendEmail():
     # Add above updated fortuna.csv as an attchment into Email 
     csvfile = "fortuna.csv"
     with open(csvfile) as file:
-        Attachment = MIMEBase("application", "octet-steam")
+        Attachment = MIMEBase("application", "octet-steam") # Build email attachment
         Attachment.set_payload(file.read())
-    # Set parameter of this attachment
+    # Set parameter and header of this attachment
     encoders.encode_base64(Attachment)
     Attachment.add_header(
         "Content-Disposition",
@@ -150,7 +150,7 @@ def sendEmail():
     image["Content-Disposition"] = 'attachment; filename="Fortuna.png"'
     message.attach(image)
 
-    # Login the email and send the email 
+    # Connect Gmail SMTP server and login the email and send the email 
     session = smtplib.SMTP("smtp.gmail.com", 587) # Smtplib is a built-in library of python, so there is no need to install with pip
     session.starttls()  # enale security
     session.login(sender["adress"], sender["password"])
@@ -160,13 +160,15 @@ def sendEmail():
     print('Mail Sent')
 
 # scheduling every monday automatically to send the mail
-def job():
+def job(): # Define a job to send the weather plus Fortuna news regularly via Email 
     print("start")
     weatherandfortuna = weatherandnews_spider()
     send_email(weatherandfortuna)
     print("end")
 
-schedule.every().monday.at("07:30").do(job)
+schedule.every().monday.at("07:30").do(job) # Scheule the parameter for sending Email 
 while True:
+    if datetime.datetime.now().strftime ("%h:&m") == "07:31":
+        break # When the code completes the task for every monday morning,then end task automatically
     schedule.run_pending()
     time.sleep(1)
