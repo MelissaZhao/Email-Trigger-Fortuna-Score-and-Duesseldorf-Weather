@@ -1,5 +1,5 @@
-{	host = "localhost",
-    user = "root",
-    password = "3Niandaojishi",
-    database = "MelissaZY"
+{	"host" = "localhost",
+    "user" = "root",
+    "password" = "3Niandaojishi",
+    "database" = "MelissaZY"
 }
