@@ -4,7 +4,7 @@
 The theme of this project aims to send the regular Email to football fan of Fortuna-Düsseldorf club about the football score of Fortuna and the weather in Düsseldorf on that day.
 
 ####  Structure: 
-The project is mainly divided into five parts.
+The project is mainly divided into six parts.
 
 1. The first part uses Beautiful Soup to parse and extract the weather information of Düsseldorf from the weather forecast website.
 
