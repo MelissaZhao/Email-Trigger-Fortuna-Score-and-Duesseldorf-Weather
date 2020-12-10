@@ -32,7 +32,7 @@ def getWeather():
 
     # After analysing page source to figure out that current weather info is within the class of "forecast-navigation-grid"
     table = soup.find_all("div",class_="forecast-navigation-grid")
-    for item in table: # Use for loop store and find items for maximum temperature, minimum temperature and possibility of rainfall
+    for item in table: # Use "for" loop to store and find weather items for maximum temperature, minimum temperature and possibility of rainfall
         maxtem = item.find(class_='forecast-navigation-temperature-max').text # Get maximal temperature
         mintem = item.find(class_='forecast-navigation-temperature-min').text # Get minimal temperature
         rainy = item.find(class_='forecast-navigation-precipitation-probability').text # Get rainy rate
@@ -41,14 +41,14 @@ def getWeather():
     
 # The second part utilise Pandas to obtain the information of the Fortuna's game score in tabular form from kicker.de webpage and convert and save it as a local csv file
 def getTable():
-    url = "https://www.kicker.de/2-bundesliga/tabelle" # List the target bundesliga score website 
-    response = requests.get(url) # Use the requests library to get the target bundesliga url 
+    url = "https://www.kicker.de/2-bundesliga/tabelle" # List the target bundesliga score url 
+    response = requests.get(url) # Use the requests library to get the target kicker.de url 
     tabelle = pd.read_html(response.content, header=0)[0] 
-    # Pandas is a data analysis package of python. Here is used to read the bundlesliga score table in tabular form with column data.
+    # Pandas is a data analysis package of python. Here is used to read the bundlesliga score table in tabular form with column data
     select * from tabeblle  
     where Verein = "Düsseldorf (A)  Fortuna Düsseldorf (A)"
-    # SELECT is a command used to query column data in a table. Here is used with conditional clauses (where) to obtain query results.
-    fortuna.to_csv("fortuna.csv")  # Transfer the query results into .csv file 
+    # SELECT is a command used to query column data in a table. Here is used with conditional clauses (where) to obtain query results
+    fortuna.to_csv("fortuna.csv") # Transfer the query results into .csv file 
 
     
 ## The third part is to create a SQL database, and insert the content of the updated columns from local csv file into the sql tabel for storing data
@@ -67,7 +67,7 @@ def getDB():
     """
     cursor.execute(sql) # Create a new tabel names "fortuna_score" with four columns which are identical with the some of the columns of "fortuna.csv"
 
-    for score in scores: # Insert existing the four columns from "fortuna.csv" to the new tabel "fortuna_score" of database "MelissaZY"  
+    for score in scores: # Insert the four columns from "fortuna.csv" to the new tabel "fortuna_score" of database "MelissaZY"  
         val = SELECT ("Verein","Pl.","Tore","Punkte") FROM "fortuna.csv" INTO "fortuna_score" IN "MelissaZY"
         sql = "insert into fortuna_score(Verein,Pl.,Tore,Punkte) values((%s, %s, %s, %s)"
         Verein = score[0]
@@ -82,11 +82,11 @@ def getDB():
 
 
 ## The fourth part is to send email using smtplib protocol, and attach the updated weather information to the title of the email
-## Additionally, attaching the csv file as well as html format in line with Fortuna official picture into the email content
+## Additionally, attaching the csv file and kicker.de weblink as well as html format in line with Fortuna official picture into the email content
 def sendEmail():
     print ("read Emaildata...")
     with open ("Email.json")as read_file: # Sender information incl.Email address and Email password for security reason is saved externally in a .JSON file  
-        sender = json.load(read_file) # Read the Email.json file in order to login into sender account 
+        sender = json.load(read_file) # Read the Email.json file in order later to login into sender account 
     
       
     receiver_adress = "melle.yue.zhao@gmail.com"
@@ -135,7 +135,7 @@ def sendEmail():
     message.attach(mail_content)
     message.attach(html)
     
-    # Add above updated fortuna.csv as an attchment into Email 
+    # Add above updated fortuna.csv as an attachment into email 
     csvfile = "fortuna.csv"
     with open(csvfile) as file:
         Attachment = MIMEBase("application", "octet-steam") # Build email attachment
@@ -165,16 +165,16 @@ def sendEmail():
     print('Mail Sent')
     
 
-# The fifth part is to send email regularly every Monday morning at 7:30 and stop sending emails at 7:31
-def job(): # Define a job to send the weather plus Fortuna news regularly via Email 
+# The fifth part is to send email automatically every monday morning at 7:30 and stop sending emails at 7:31
+def job(): # Define a job to send the weather info plus Fortuna news regularly via email 
     print("start")
     weatherandfortuna = weatherandnews_spider()
     send_email(weatherandfortuna)
     print("end")
 
-schedule.every().monday.at("07:30").do(job) # Scheule the parameter for sending Email 
+schedule.every().monday.at("07:30").do(job) # Scheule the parameter for sending email 
 while True:
     if datetime.datetime.now().strftime ("%h:&m") == "07:31":
-        break # When the code completes the task for every monday morning,then end task automatically
+        break # When the code completes the task for every monday morning, then end task automatically
     schedule.run_pending()
     time.sleep(1)
