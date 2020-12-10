@@ -1,3 +1,5 @@
+### Email Trigger: Fortuna-Düsseldorf score and Düsseldorf weather
+
 ####  Topic: 
 The theme of this project aims to send the regular Email to football fan of Fortuna-Düsseldorf club about the football score of Fortuna and the weather in Düsseldorf on that day.
 
