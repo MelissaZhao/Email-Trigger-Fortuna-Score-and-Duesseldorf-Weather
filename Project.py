@@ -24,6 +24,7 @@ from email import encoders
 # List the user-agent of personal browser in order to automatically open the target webpage regularly from this browser
 headers = {"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36"}
 
+
 # The first part uses Beautiful Soup to parse and extract the weather information of Düsseldorf from the weather forecast website
 def getWeather():
     self_url = "https://www.wetter.com/deutschland/duesseldorf/DE0001855.html#" # List the target weather website 
