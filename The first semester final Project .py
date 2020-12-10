@@ -175,7 +175,7 @@ def job(): # Define a job to send the weather info plus Fortuna news regularly v
 
 schedule.every().monday.at("07:30").do(job) # Scheule the parameter for sending email 
 while True:
-    if datetime.datetime.now().strftime ("%h:&m") == "07:31":
+    if datetime.datetime.now().strftime ("%h:&m") == "07:31": # module named datetime aims to work with dates and times
         break # When the code completes the task for every monday morning, then end task automatically
     schedule.run_pending()
     time.sleep(1)
