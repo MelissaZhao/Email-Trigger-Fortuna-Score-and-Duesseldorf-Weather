@@ -31,6 +31,7 @@ headers = {"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWeb
 
 # The first part uses Beautiful Soup to parse and extract the weather information of Düsseldorf from the weather forecast website
 def getWeather():
+    global maxtem,mintem,rainy
     self_url = "https://www.wetter.com/deutschland/duesseldorf/DE0001855.html#" # List the target weather website 
     page = requests.get(self_url,headers = headers) # Use the requests library to extract the target html 
     soup = BeautifulSoup(page.content,"html.parser")# Beautiful Soup is a Python package to creates a parse tree of parsed pages for extracting data from HTML
@@ -173,7 +174,7 @@ def sendEmail():
 # The fifth part is to define the condition of minimal temperature for external trigger via email
 def job(): # Define a job for set the condition 
     getWeather()
-    if (mintem <= 0°):
+    if (mintem <= 0):
         sendEmail()
         print('Mail Send')
     else:
