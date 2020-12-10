@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 import mysql.connector as mysql
-import smtplib #smtplib is a built-in library of python, so there is no need to install with pip
+import smtplib 
 import json
 import schedule
 import time
@@ -50,20 +50,20 @@ def getTable():
 ## It takes 3 required parameters 'host', 'user', 'passwd'
 def getDB():
     print("read DBdata...")
-    with open("Database.json")as r_file: # Database incl.host, user, password und database for security reason is saved externally in a .JSON file
-        DBMelissaZY = json.load(r_file)
-    db = mysql.connect(DBMelissaZY)
-    cursor = conn.cursor() ## creating an instance of 'cursor' class which is used to execute the 'SQL' statements in 'Python'
-    sql = """
+    with open("Database.json")as r_file: # Database info incl.host, user, password und database for security reason is saved externally in a .JSON file
+        DBMelissaZY = json.load(r_file) # Read Database.json in order to prepare next step to connect and login Database
+    db = mysql.connect(DBMelissaZY) # Connecting to the database using 'connect()' method
+    cursor = conn.cursor() # Create an instance of 'cursor' class which is used to execute the 'SQL' statements in 'Python'
+    sql = """ 
     create table if not exists fortuna_score(
         Verein varchar(255),
         Pl. varchar(255),
         Tore Varchar(255),
         Punkte Varchar(255)
     """
-    cursor.execute(sql)
+    cursor.execute(sql) # Create a new tabel names "fortuna_score" with four columns which are identical with the some of the columns of "fortuna.csv"
 
-    for score in scores:
+    for score in scores: # Insert existing the four columns from "fortuna.csv" to the new tabel "fortuna_score" of database "MelissaZY"  
         val = SELECT ("Verein","Pl.","Tore","Punkte") FROM "fortuna.csv" INTO "fortuna_score" IN "MelissaZY"
         sql = "insert into fortuna_score(Verein,Pl.,Tore,Punkte) values((%s, %s, %s, %s)"
         Verein = score[0]
@@ -77,24 +77,24 @@ def getDB():
 
 
 
-# Set the parameters required by smtplib
+## Set the parameters required by smtplib
 def sendEmail():
     print ("read Emaildata...")
     with open ("Email.json")as read_file: # Sender information incl.Email address and Email password for security reason is saved externally in a .JSON file  
-        sender = json.load(read_file) # read the Email.json file in order to login into sender account 
+        sender = json.load(read_file) # Read the Email.json file in order to login into sender account 
     
-
+      
     receiver_adress = "melle.yue.zhao@gmail.com"
     subject = "Fortuna-News and weather. Today the rainfall is" +rainy, " the temperatur is from" +maxitem-mintem
-
-    # Construct object of MIMEMultipart
-    message = MIMEMultipart()
+    # Edit the subject,here the variables are the real-time weather information extracted from afromentioned function 
+   
+    message = MIMEMultipart()  # Construct object of MIMEMultipart
     message["subject"] = subject
     message["from"] = sender_adress
     message["to"] = receiver_adress
 
     # Add email contents
-    mail_content = MIMEText(
+    mail_content = MIMEText( 
         """Hi,How are you?
         Please find the attached file and link about Fortuna Düsseldorf score and News!
         https://www.kicker.de/fortuna-duesseldorf/info
@@ -129,29 +129,29 @@ def sendEmail():
 
     message.attach(mail_content)
     message.attach(html)
-    # Add email attachment
+    
+    # Add above updated fortuna.csv as an attchment into Email 
     csvfile = "fortuna.csv"
     with open(csvfile) as file:
         Attachment = MIMEBase("application", "octet-steam")
         Attachment.set_payload(file.read())
-
+    # Set parameter of this attachment
     encoders.encode_base64(Attachment)
     Attachment.add_header(
         "Content-Disposition",
         f"attachment; csvfile = {csvfile}",
     )
-
     message.attach(Attachment)
 
-    # Add pictures to email
+    # Add Fortuna Log as pictures into this email
     imagefile = open('Fortuna.png', 'rb')
     image = MIMEImage(imagefile.read(), _subtype="png")
     image.add_header('Content-ID', '<image1>')
     image["Content-Disposition"] = 'attachment; filename="Fortuna.png"'
     message.attach(image)
 
-    # Send email message
-    session = smtplib.SMTP("smtp.gmail.com", 587)  
+    # Login the email and send the email 
+    session = smtplib.SMTP("smtp.gmail.com", 587) # Smtplib is a built-in library of python, so there is no need to install with pip
     session.starttls()  # enale security
     session.login(sender["adress"], sender["password"])
     text = message.as_string()
