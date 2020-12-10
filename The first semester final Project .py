@@ -1,5 +1,6 @@
+""" Imports """
 
-import requests
+import requests                                      
 import pandas as pd
 import numpy as np
 import mysql.connector as mysql
@@ -19,6 +20,9 @@ from email import encoders
 
 
 # This project aims to send the regular Email to football fan of Fortuna-Düsseldorf club about the football score of Fortuna and the weather in Düsseldorf on that day
+
+
+""" Function """
 
 
 # List the user-agent of personal browser in order to automatically open the target webpage regularly from this browser
@@ -168,14 +172,23 @@ def sendEmail():
 
 # The fifth part is to send email automatically every monday morning at 7:30 and stop sending emails at 7:31
 def job(): # Define a job to send the weather info plus Fortuna news regularly via email 
-    print("start")
-    weatherandfortuna = weatherandnews_spider()
-    send_email(weatherandfortuna)
-    print("end")
+    getWeather()
+    if ((mintem <= 0°)
+    or (maxtem >= 20°)):
+        tem,weather = weather_spider()
+        send_email(tem,weather)
+        print('Mail Send')
+    else:
+        print('No Mail Send')
 
-    schedule.every().monday.at("07:30").do(job) # Scheule the parameter for sending email 
-    while True:
-        if datetime.datetime.now().strftime ("%h:&m") == "07:31": # Module named datetime aims to work with dates and times
-            break # When the code completes the task for every monday morning, then end task automatically
-        schedule.run_pending()
-        time.sleep(1)
+    
+    
+""" Start_Auto_Run """
+
+
+schedule.every().monday.at("07:30").do(job) # Scheule the parameter for sending email 
+while True:
+    if datetime.datetime.now().strftime ("%h:&m") == "07:31": # Module named datetime aims to work with dates and times
+        break # When the code completes the task for every monday morning, then end task automatically
+    schedule.run_pending()
+    time.sleep(1)
