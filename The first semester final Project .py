@@ -170,20 +170,19 @@ def sendEmail():
     print('Mail Sent')
     
 
-# The fifth part is to send email automatically every monday morning at 7:30 and stop sending emails at 7:31
-def job(): # Define a job to send the weather info plus Fortuna news regularly via email 
+# The fifth part is to define the condition of minimal temperature for external trigger via email
+def job(): # Define a job for set the condition 
     getWeather()
-    if ((mintem <= 0°) or (maxtem >= 10°)):
-        send_email()
+    if (mintem <= 0°):
+        sendEmail()
         print('Mail Send')
     else:
         print('No Mail Send')
 
     
-    
 """ Start_Auto_Run """
 
-
+# The sixth part is to schedule external trigger
 schedule.every().monday.at("07:30").do(job) # Scheule the parameter for sending email 
 while True:
     if datetime.datetime.now().strftime ("%h:&m") == "07:31": # Module named datetime aims to work with dates and times
