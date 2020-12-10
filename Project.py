@@ -2,7 +2,6 @@
 import requests
 import pandas as pd
 import numpy as np
-from bs4 import BeautifulSoup
 import mysql.connector as mysql
 import smtplib 
 import json
@@ -10,13 +9,15 @@ import schedule
 import time
 import datetime
 
+from bs4 import BeautifulSoup
+from numpy import insert
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from email import encoders
 
-from numpy import insert
+
 
 
 
