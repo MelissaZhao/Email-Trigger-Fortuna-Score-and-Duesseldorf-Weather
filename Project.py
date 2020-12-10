@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 import mysql.connector as mysql
-import smtplib
+import smtplib #smtplib is a built-in library of python, so there is no need to install with pip
 import json
 import schedule
 import time
@@ -18,37 +18,39 @@ from numpy import insert
 from pandas import DataFrame
 
 
-# list the user-agent of personal browser in oder to conduct automation
+# List the user-agent of personal browser in order to automatically open the target webpage regularly from this browser
 headers = {"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36"}
 
-# use web scraper to get current weather info
+# Use web scraper to get current weather info
 def getWeather():
-    self_url = "https://www.wetter.com/deutschland/duesseldorf/DE0001855.html#"
-    page = requests.get(self_url,headers = headers)
-    soup = BeautifulSoup(page.content,"html.parser")
+    self_url = "https://www.wetter.com/deutschland/duesseldorf/DE0001855.html#" # List the target weather website 
+    page = requests.get(self_url,headers = headers) # Use the requests library to extract the target html 
+    soup = BeautifulSoup(page.content,"html.parser")# Beautiful Soup is a Python package to creates a parse tree of parsed pages for extracting data from HTML
 
-    # after analysing page source to figure out that current weather info is within the class of "forecast-navigation-grid"
+    # After analysing page source to figure out that current weather info is within the class of "forecast-navigation-grid"
     table = soup.find_all("div",class_="forecast-navigation-grid")
-    for item in table:
-        maxtem = item.find(class_='forecast-navigation-temperature-max').text # get maximal temperature
-        mintem = item.find(class_='forecast-navigation-temperature-min').text # get minimal temperature
-        rainy = item.find(class_='forecast-navigation-precipitation-probability').text # get rainy rate
+    for item in table: # Use for loop store and find items for maximum temperature, minimum temperature and possibility of rainfall
+        maxtem = item.find(class_='forecast-navigation-temperature-max').text # Get maximal temperature
+        mintem = item.find(class_='forecast-navigation-temperature-min').text # Get minimal temperature
+        rainy = item.find(class_='forecast-navigation-precipitation-probability').text # Get rainy rate
         return maxtem,mintem,rainy
 
-# accquire bundesliga score table and transfer into csv file
+# Accquire bundesliga score table, selecht the store of the Fortuna Düsseldorf team and transfer into csv file
 def getTable():
-    url = "https://www.kicker.de/2-bundesliga/tabelle"
-    response = requests.get(url)
-    tabelle = pd.read_html(response.content, header=0)[0]
-    select * from tabeblle
+    url = "https://www.kicker.de/2-bundesliga/tabelle" # List the target bundesliga score website 
+    response = requests.get(url) # Use the requests library to get the target bundesliga url 
+    tabelle = pd.read_html(response.content, header=0)[0] 
+    # Pandas is a data analysis package of python. Here is used to read the bundlesliga score table in tabular form with column data.
+    select * from tabeblle  
     where Verein = "Düsseldorf (A)  Fortuna Düsseldorf (A)"
-    fortuna.to_csv("fortuna.csv")
+    # SELECT is a command used to query column data in a table. Here is used with conditional clauses (where) to obtain query results.
+    fortuna.to_csv("fortuna.csv")  # Transfer the query results into .csv file 
 
-## connecting to the database using 'connect()' method
-## it takes 3 required parameters 'host', 'user', 'passwd'
+## Connecting to the database using 'connect()' method
+## It takes 3 required parameters 'host', 'user', 'passwd'
 def getDB():
-    print("read data...")
-    with open("Database.json")as r_file:
+    print("read DBdata...")
+    with open("Database.json")as r_file: # Database incl.host, user, password und database for security reason is saved externally in a .JSON file
         DBMelissaZY = json.load(r_file)
     db = mysql.connect(DBMelissaZY)
     cursor = conn.cursor() ## creating an instance of 'cursor' class which is used to execute the 'SQL' statements in 'Python'
@@ -77,9 +79,10 @@ def getDB():
 
 # Set the parameters required by smtplib
 def sendEmail():
-    print ("read data...")
-    with open ("Email.json")as read_file:
-        sender = json.load(read_file)
+    print ("read Emaildata...")
+    with open ("Email.json")as read_file: # Sender information incl.Email address and Email password for security reason is saved externally in a .JSON file  
+        sender = json.load(read_file) # read the Email.json file in order to login into sender account 
+    
 
     receiver_adress = "melle.yue.zhao@gmail.com"
     subject = "Fortuna-News and weather. Today the rainfall is" +rainy, " the temperatur is from" +maxitem-mintem
@@ -148,7 +151,7 @@ def sendEmail():
     message.attach(image)
 
     # Send email message
-    session = smtplib.SMTP("smtp.gmail.com", 587)
+    session = smtplib.SMTP("smtp.gmail.com", 587)  
     session.starttls()  # enale security
     session.login(sender["adress"], sender["password"])
     text = message.as_string()
