@@ -175,8 +175,7 @@ def job(): # Define a job to send the weather info plus Fortuna news regularly v
     getWeather()
     if ((mintem <= 0°)
     or (maxtem >= 20°)):
-        tem,weather = weather_spider()
-        send_email(tem,weather)
+        send_email()
         print('Mail Send')
     else:
         print('No Mail Send')
