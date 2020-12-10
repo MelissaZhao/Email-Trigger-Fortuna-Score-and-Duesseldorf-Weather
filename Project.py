@@ -18,10 +18,13 @@ from numpy import insert
 from pandas import DataFrame
 
 
+# This project aims to send the regular Email to football fan of Fortuna-Düsseldorf club about the football score of Fortuna and the weather in Düsseldorf on that day
+
+
 # List the user-agent of personal browser in order to automatically open the target webpage regularly from this browser
 headers = {"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36"}
 
-# Use web scraper to get current weather info
+# The first part uses Beautiful Soup to parse and extract the weather information of Düsseldorf from the weather forecast website
 def getWeather():
     self_url = "https://www.wetter.com/deutschland/duesseldorf/DE0001855.html#" # List the target weather website 
     page = requests.get(self_url,headers = headers) # Use the requests library to extract the target html 
@@ -35,7 +38,8 @@ def getWeather():
         rainy = item.find(class_='forecast-navigation-precipitation-probability').text # Get rainy rate
         return maxtem,mintem,rainy
 
-# Accquire bundesliga score table, selecht the store of the Fortuna Düsseldorf team and transfer into csv file
+    
+# The second part utilise Pandas to obtain the information of the Fortuna's game score in tabular form from kicker.de webpage and convert and save it as a local csv file
 def getTable():
     url = "https://www.kicker.de/2-bundesliga/tabelle" # List the target bundesliga score website 
     response = requests.get(url) # Use the requests library to get the target bundesliga url 
@@ -46,8 +50,8 @@ def getTable():
     # SELECT is a command used to query column data in a table. Here is used with conditional clauses (where) to obtain query results.
     fortuna.to_csv("fortuna.csv")  # Transfer the query results into .csv file 
 
-## Connecting to the database using 'connect()' method
-## It takes 3 required parameters 'host', 'user', 'passwd'
+    
+## The third part is to create a SQL database, and insert the content of the updated columns from local csv file into the sql tabel for storing data
 def getDB():
     print("read DBdata...")
     with open("Database.json")as r_file: # Database info incl.host, user, password und database for security reason is saved externally in a .JSON file
@@ -77,7 +81,8 @@ def getDB():
 
 
 
-## Set the parameters required by smtplib
+## The fourth part is to send email using smtplib protocol, and attach the updated weather information to the title of the email
+## Additionally, attaching the csv file as well as html format in line with Fortuna official picture into the email content
 def sendEmail():
     print ("read Emaildata...")
     with open ("Email.json")as read_file: # Sender information incl.Email address and Email password for security reason is saved externally in a .JSON file  
@@ -110,16 +115,16 @@ def sendEmail():
         <html>
             <body>
                 <h1>
-                    Week Plan
+                    Düsseldorf
                 </h1>
                 <h2>
-                    Studying
+                    support the local football team of hometown
                 </h2>
                 <h3>
-                    Studying
+                    take care the weather of hometown for family members
                 </h3>
                 <p>
-                    Studying
+                    keep healthy in corona time 
                 </p>
             </body>
         </html>
@@ -158,8 +163,9 @@ def sendEmail():
     session.sendmail(sender["adress"], receiver_adress, text)
     session.quit()
     print('Mail Sent')
+    
 
-# scheduling every monday automatically to send the mail
+# The fifth part is to send email regularly every Monday morning at 7:30 and stop sending emails at 7:31
 def job(): # Define a job to send the weather plus Fortuna news regularly via Email 
     print("start")
     weatherandfortuna = weatherandnews_spider()
