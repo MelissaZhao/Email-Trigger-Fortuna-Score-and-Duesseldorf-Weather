@@ -14,9 +14,9 @@ The project is mainly divided into six parts.
 
 4. The fourth part is to send email using smtplib protocol, and attach the updated weather information to the title of the email. Additionally, attaching the csv file as well as html format in line with Fortuna official picture into the email content.
 
-5. The fifth part is to define the condition of minimal temperature for external trigger via email
+5. The fifth part is to define the condition of minimal temperature for external trigger via email.
 
-6. The sixth part is to schedule external trigger
+6. The sixth part is to schedule external trigger.
 
 ####   Note: 
 For security reason, the passwords of sender email and of the database are stored in the attached json files separately.
