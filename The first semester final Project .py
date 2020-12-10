@@ -173,8 +173,7 @@ def sendEmail():
 # The fifth part is to send email automatically every monday morning at 7:30 and stop sending emails at 7:31
 def job(): # Define a job to send the weather info plus Fortuna news regularly via email 
     getWeather()
-    if ((mintem <= 0°)
-    or (maxtem >= 20°)):
+    if ((mintem <= 0°) or (maxtem >= 20°)):
         send_email()
         print('Mail Send')
     else:
