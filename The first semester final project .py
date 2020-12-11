@@ -64,19 +64,19 @@ def getDB():
     sql = """ 
     create table if not exists fortuna_score(
         Verein varchar(255),
-        Pl. varchar(255),
+        Platz varchar(255),
         Tore Varchar(255),
         Punkte Varchar(255)
     """
     cursor.execute(sql) # Create a new tabel names "fortuna_score" with four columns which are identical with the some of the columns of "fortuna.csv"
 
     for score in scores: # Insert the four columns from "fortuna.csv" to the new tabel "fortuna_score" of database "MelissaZY"  
-        val = SELECT ("Verein","Pl.","Tore","Punkte") FROM "fortuna.csv" INTO "fortuna_score" IN "MelissaZY"
+        val = SELECT ("Verein","Platz","Tore","Punkte") FROM "fortuna.csv" INTO "fortuna_score" IN "MelissaZY"
         sql = "insert into fortuna_score(Verein,Pl.,Tore,Punkte) values((%s, %s, %s, %s)"
         Verein = score[0]
-        Pl.= score[1]
-        Tore= score[2]
-        Punkte= score[3]
+        Platz = score[1]
+        Tore = score[2]
+        Punkte = score[3]
         cursor.execute(sql,val)
 
     conn.commit()
