@@ -51,9 +51,6 @@ def getTable():
     response = requests.get(url) # Use the requests library to get the target kicker.de url 
     tabelle = pd.read_html(response.content, header=0)[0] 
     # Pandas is a data analysis package of python. Here is used to read the bundlesliga score table in tabular form with column data
-    select * from tabeblle  
-    where Verein = "Düsseldorf (A)  Fortuna Düsseldorf (A)"
-    # SELECT is a command used to query column data in a table. Here is used with conditional clauses (where) to obtain query results
     fortuna.to_csv("fortuna.csv") # Transfer the query results into .csv file 
 
     
