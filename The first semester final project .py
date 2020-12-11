@@ -96,7 +96,7 @@ def sendEmail():
     
       
     receiver_adress = "melle.yue.zhao@gmail.com"
-    subject = "Fortuna-News and weather. Today the rainfall is" +rainy, " the temperatur is from" +maxitem-mintem
+    subject = "Fortuna-News and weather. Today the rainfall is" +rainy, " the temperatur is from" +maxtem-mintem
     # Edit the subject,here the variables are the real-time weather information extracted from afromentioned function 
    
     message = MIMEMultipart()  # Construct object of MIMEMultipart
