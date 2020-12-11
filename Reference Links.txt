@@ -1,0 +1,4 @@
+@1 https://programming.vip/docs/python-reptilian-gate-10-lets-the-reptilian-report-to-you-regularly.html
+@2 https://www.datacamp.com/community/tutorials/pandas-read-csv
+@3 https://www.w3schools.com/python/python_mysql_create_db.asp
+@4 https://docs.python.org/3/library/email.examples.html
